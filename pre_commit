@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# 获取diff内容
+diffContents=$(git diff --cached --diff-filter=ACM ':(exclude)hook/pre-commit')
+iconScriptPath=script
+# 获取diff文件列表
+diffFiles=$(git diff --name-only --cached --diff-filter=ACM ':(exclude)hook/pre-commit')
+if [[ $diffFiles == *".jpg"* || $diffFiles == *".png"* ]]; then
+    echo "🚆🚆检测到修改图片，准备压缩图片"
+    node script/compress_images.js
+    echo "🚆🚆图片压缩完成"
+fi
+
+exit 0
